@@ -1,0 +1,15 @@
+
+
+from .vasp import VaspInteractiveProcess
+from .interactive import InteractiveProcess
+
+Callbacks = VaspInteractiveProcess.Callback
+MainLoopStarted = VaspInteractiveProcess.Callback.MainLoopStarted
+IonicStepStarted = VaspInteractiveProcess.Callback.IonicStepStarted
+IonicStepFinished = VaspInteractiveProcess.Callback.IonicStepFinished
+ScfStepCompleted = VaspInteractiveProcess.Callback.ScfStepCompleted
+NextStructure = VaspInteractiveProcess.Callback.NextStructure
+IonForceRead = VaspInteractiveProcess.Callback.IonForceRead
+FeedPositionsStarted = VaspInteractiveProcess.Callback.FeedPositionsStarted
+FeedPositionsFinished = VaspInteractiveProcess.Callback.FeedPositionsFinished
+Exit = VaspInteractiveProcess.Callback.Exit
