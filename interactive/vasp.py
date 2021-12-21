@@ -200,8 +200,26 @@ class VaspInteractiveProcess(InteractiveProcess):
         triggers, actions = map(ensure_tuple, self._next_action)
         for trigger, action in zip(triggers, actions):
             m = trigger.match(line)
-            # print(action.__name__, trigger, f".match(\"{line}\")")
             if m:
                 action(m)
                 break
+    
+    @property
+    def ionic_step(self):
+        return self._ionic_step
 
+    @property
+    def scf_step(self):
+        self._scf_step
+
+    @property
+    def ionic_steps(self):
+        return self._ionic_steps
+
+    @property
+    def positions(self):
+        return self._positions
+
+    @property
+    def last_ionic_step(self):
+        return next(reversed(self._ionic_steps), None)

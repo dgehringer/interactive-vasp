@@ -1,5 +1,5 @@
 
-
+from .utils import ensure_iterable_of_type
 from .vasp import VaspInteractiveProcess
 from .interactive import InteractiveProcess
 

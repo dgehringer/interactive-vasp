@@ -1,6 +1,7 @@
 import os
 import sys
 import stat
+import logging
 import asyncio
 
 PY37 = sys.version_info >= (3, 7)
@@ -201,3 +202,15 @@ async def forking_pipe(reader, writers, line_processors = None):
     for writer in writers: 
         if hasattr(writer, 'drain'):
             await writer.drain()
+
+
+def execute_coro(coro):
+    loop = asyncio.get_event_loop()
+    logging.debug('Creating the problem task')
+    logging.debug('Running the loop')
+    try:
+        loop.run_until_complete(coro)
+    except KeyboardInterrupt:
+        logging.info('Closing the loop')
+        loop.debug()
+    logging.info('Shutting down')
