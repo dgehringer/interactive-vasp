@@ -49,7 +49,6 @@ if __name__ == '__main__':
             potcar, 
             executable=executable, 
             directory='calc', # execute everything in a new folder named "calc"
-            stdout=None, 
             stdout_proc=log_stdout
         )
     )
