@@ -10,7 +10,13 @@ _, executable, *_ = sys.argv
 potcar = Potcar.from_file('POTCAR')  # load POTCAR file
 kpoints = Kpoints.gamma_automatic((4, 4, 4))  # generate you custom KPOINTS file here
 
-incar = dict(ENCUT=400, ALGO='Fast')  # put your INCAR here, tags such as INTERACTIVE, ISYM and IBRION will be updated automatically -> you might get a warning
+# put your INCAR here, tags such as INTERACTIVE, ISYM and IBRION will be updated automatically -> you might get a warning
+incar = dict(
+    ENCUT=400, 
+    ALGO='Fast', 
+    LWAVE=False, 
+    LCHARG=False
+)  
 
 
 # will be passed with the stdout_proc keyword -> This function get's executed whenever a line is written to stdout
@@ -42,7 +48,7 @@ if __name__ == '__main__':
             kpoints, 
             potcar, 
             executable=executable, 
-            directory='calc', 
+            directory='calc', # execute everything in a new folder named "calc"
             stdout=None, 
             stdout_proc=log_stdout
         )
