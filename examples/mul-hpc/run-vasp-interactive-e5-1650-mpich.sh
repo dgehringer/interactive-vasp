@@ -15,6 +15,7 @@ module load mkl
 module load mpich
 module load scalapack
 
+
 export OMP_NUM_THREADS=1
 
 VASP_MODE="std"
@@ -27,4 +28,14 @@ VASP5_EXECUTABLE="${VASP_ROOT}/${VASP5_VERSION}/bin/vasp_${VASP_MODE}"
 VASP6_EXECUTABLE="${VASP_ROOT}/${VASP6_VERSION}/bin/vasp_${VASP_MODE}"
 
 ulimit -s unlimited
-time mpirun -np $SLURM_NPROCS $VASP5_EXECUTABLE
+
+INTERACTIVE_LIB_DIR=/calc/dnoeger/software/python/interactive-vasp
+
+# make "conda" command available by sourcing the shell initialization script
+
+source /calc/dnoeger/software/anaconda3/etc/profile.d/conda.sh
+conda activate base
+
+PYTHONPATH=$PYTHONPATH:$INTERACTIVE_LIB_DIR python protocol-mul-hpc.py "mpirun -np 6 ${VASP5_EXECUTABLE}"
+
+conda deactivate
