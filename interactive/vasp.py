@@ -4,9 +4,10 @@ import os
 import sys
 import enum
 import functools
-from .utils import ensure_iterable_of_type
+from operator import attrgetter as attr
 from .interactive import InteractiveProcess
-from .regex import chain, group, lpad, lrpad, regex_whitespace_maybe, regex_whitespace_sure, regex_float, regex_integer
+from .utils import ensure_iterable_of_type, transpose
+from .regex import chain, group, lpad, lrpad, regex_whitespace_maybe, regex_whitespace_sure, regex_float, regex_integer, any_of as regex_any_of
 
 # build regexes
 
@@ -69,6 +70,7 @@ ionic_step_summary_converters = dict(
 )
 
 ensure_tuple = functools.partial(ensure_iterable_of_type, tuple)
+
 
 def add_line_processor(processor, procs=None):
     return (processor,) if procs is None else ensure_tuple(procs) + (processor,)
@@ -150,6 +152,8 @@ class VaspInteractiveProcess(InteractiveProcess):
     def _ionic_step_finished(self, m):
         data = {k: ionic_step_summary_converters.get(k)(v) for k, v in m.groupdict().items()}
         self._ion_index = None
+        if not self._current_ionic_step:
+            self._current_ionic_step = dict()
         self._current_ionic_step['summary'] = data
         self._ionic_steps.append(self._current_ionic_step)
         self._next_action = (regex_feed_positions_begin, self._start_feed_positions)
@@ -171,7 +175,7 @@ class VaspInteractiveProcess(InteractiveProcess):
 
     def _end_feed_positions(self, *_):
         self._fire_callback(VaspInteractiveProcess.Callback.FeedPositionsFinished)
-        self._next_action = (regex_scf_table_header, self._ionic_step_started)
+        self._next_action = ((regex_scf_table_header, regex_ionic_step_complete), (self._ionic_step_started, self._ionic_step_finished))
 
     def _feed_positions(self, positions):
         for coords in positions:
@@ -201,7 +205,12 @@ class VaspInteractiveProcess(InteractiveProcess):
         for trigger, action in zip(triggers, actions):
             m = trigger.match(line)
             if m:
-                action(m)
+                try:
+                    action(m)
+                except Exception as e:
+                    import traceback
+                    traceback.print_exc()
+                
                 break
     
     @property

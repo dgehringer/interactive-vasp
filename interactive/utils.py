@@ -48,3 +48,7 @@ cd = WorkingDirectory
 
 def ensure_iterable_of_type(t, o):
     return o if isinstance(o, t) else (o if o is None else t([o]))
+
+
+def transpose(it):
+    return zip(*it)

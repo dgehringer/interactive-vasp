@@ -212,5 +212,4 @@ def execute_coro(coro):
         loop.run_until_complete(coro)
     except KeyboardInterrupt:
         logging.info('Closing the loop')
-        loop.debug()
     logging.info('Shutting down')

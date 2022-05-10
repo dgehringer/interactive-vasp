@@ -33,7 +33,7 @@ def complete_incar(incar: dict):
         incar[tag] = value
 
     set_parameter('ISYM', 0)
-    set_parameter('IBRION', -1)
+    set_parameter('IBRION', 11)
     set_parameter('POTIM', 0.0)
     set_parameter('NSW', int(1e6))
     set_parameter('INTERACTIVE', True)

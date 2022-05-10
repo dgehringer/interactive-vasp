@@ -30,5 +30,5 @@ def group(regex: str, name: T.Optional[str] = None) -> str:
     return rf"({regex})" if name is None else rf"(?P<{name}>{regex})"
 
 
-def optional(*regexes: str) -> str:
+def any_of(*regexes: str) -> str:
     return r"|".join(regexes)
