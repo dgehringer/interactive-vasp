@@ -36,6 +36,6 @@ INTERACTIVE_LIB_DIR=/calc/dnoeger/software/python/interactive-vasp
 source /calc/dnoeger/software/anaconda3/etc/profile.d/conda.sh
 conda activate base
 
-PYTHONPATH=$PYTHONPATH:$INTERACTIVE_LIB_DIR python protocol-mul-hpc.py "mpirun -np 6 ${VASP5_EXECUTABLE}"
+PYTHONPATH=$PYTHONPATH:$INTERACTIVE_LIB_DIR python protocol-mul-hpc.py "mpirun -np 6 ${VASP6_EXECUTABLE}"
 
 conda deactivate
